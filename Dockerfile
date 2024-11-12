@@ -1,20 +1,23 @@
-# เลือก base image ที่จะใช้ (Node.js version ที่ต้องการ)
-FROM node:20
+# ใช้ Node.js LTS image เป็น base
+FROM node:18
 
-# ตั้งค่า directory ภายใน container
+# ตั้ง working directory ใน container
 WORKDIR /app
 
-# คัดลอกไฟล์ package.json และ package-lock.json (หรือ yarn.lock) ไปยัง container
+# คัดลอกไฟล์ package.json และ package-lock.json เพื่อทำการติดตั้ง dependencies
 COPY package*.json ./
 
 # ติดตั้ง dependencies
 RUN npm install
 
-# คัดลอกโค้ดทั้งหมดจากโปรเจคไปยัง container
+# คัดลอกโค้ดทั้งหมดในโปรเจค
 COPY . .
 
-# ตั้งพอร์ตที่ application จะฟัง
+# สร้างโปรเจคสำหรับ production
+RUN npm run build
+
+# เปิดพอร์ต 3000 (หรือพอร์ตที่คุณใช้)
 EXPOSE 3000
 
-# สั่งให้ container รันโปรเจค NestJS เมื่อ container เริ่มทำงาน
+# คำสั่งในการรันโปรเจค
 CMD ["npm", "run", "start:prod"]

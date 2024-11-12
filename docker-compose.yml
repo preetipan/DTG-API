@@ -1,24 +1,24 @@
 version: '3.8'
 
 services:
-  db:
-    image: postgres:13
-    container_name: postgres_container
-    environment:
-      POSTGRES_PASSWORD: admin@123  # รหัสผ่านสำหรับผู้ใช้ postgres
-      POSTGRES_DB: DTG-DB           # ชื่อฐานข้อมูลที่ต้องการสร้าง
-      POSTGRES_USER: postgres       # ชื่อผู้ใช้สำหรับการเชื่อมต่อกับฐานข้อมูล
+  dtg-api:
+    build: .
     ports:
-      - "5432:5432"  # Map port 5432 ไปยัง port บนเครื่อง host
-    volumes:
-      - postgres_data:/var/lib/postgresql/data  # เก็บข้อมูลใน volume
-    networks:
-      - postgres_network
+      - "3000:3000"
+    environment:
+      - DATABASE_HOST=postgres-db
+      - DATABASE_PORT=5432
+      - DATABASE_USERNAME=postgres
+      - DATABASE_PASSWORD=admin@123
+      - DATABASE_NAME=DTG-DB
+    depends_on:
+      - postgres-db
 
-volumes:
-  postgres_data:
-    driver: local
-
-networks:
-  postgres_network:
-    driver: bridge
+  postgres-db:
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=admin@123
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=DTG-DB
+    ports:
+      - "5432:5432"
