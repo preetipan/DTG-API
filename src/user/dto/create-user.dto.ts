@@ -1,5 +1,5 @@
 export class CreateUserDto {
-    UserId: string
+    UserID: string
     DisplayName: string
     PictureURL: string
     Role: string

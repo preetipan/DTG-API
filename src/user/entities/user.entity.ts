@@ -17,7 +17,7 @@ export class User {
     @Column({ type: 'varchar', length: 100 })
     Role: string;
 
-    @Column({type: 'int'})
+    @Column({ type: 'integer' })  // เปลี่ยนจาก 'int' เป็น 'integer'
     Balance: number;
 
     @CreateDateColumn({ type: 'timestamp', default: () => "CURRENT_TIMESTAMP" })
