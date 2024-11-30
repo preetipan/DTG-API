@@ -4,7 +4,14 @@ import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
-import { User } from './user/entities/user.entity';
+import { User } from './entities/user.entity';
+import { UserRole } from './entities/userRole.entity';
+import { Transaction } from './entities/transaction.entity';
+import { SubRound } from './entities/subRound.entity';
+import { Round } from './entities/round.entity';
+import { Group } from './entities/group.entity';
+import { GroupModule } from './group/group.module';
+
 
 @Module({
   imports: [
@@ -19,11 +26,11 @@ import { User } from './user/entities/user.entity';
         username: process.env.DATABASE_USERNAME,
         password: process.env.DATABASE_PASSWORD,
         database: process.env.DATABASE_NAME,
-        entities: [User],
-        synchronize: true,
+        entities: [User, UserRole, Transaction, SubRound, Round, Group],
+        synchronize: false,
       }),
     }),
-    UserModule,
+    UserModule, GroupModule,
   ],
   controllers: [AppController],
   providers: [AppService],
