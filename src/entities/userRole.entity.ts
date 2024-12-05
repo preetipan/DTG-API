@@ -7,8 +7,8 @@ export class UserRole {
   id: number;
 
   @Column({ type: 'varchar', length: 50 })
-  nameRole: string;  // This stores the role name (e.g., 'admin', 'user')
+  nameRole: string;
 
   @OneToMany(() => User, (user) => user.role)
-  users: User[];  // This establishes the relation with the User entity
+  users: User[];
 }

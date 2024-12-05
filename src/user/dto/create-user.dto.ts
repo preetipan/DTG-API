@@ -1,39 +1,42 @@
-import { IsNotEmpty, IsInt, IsEnum, IsBoolean } from 'class-validator';
-import { statusEnum, StatusFundEnum } from '../../entities/user.entity'; // นำเข้า enum ที่กำหนดใน entity
+import { IsNotEmpty, IsInt, IsEnum, IsBoolean, IsString, Min } from 'class-validator';
+import { UserStatusEnum, StatusFundEnum } from '../../entities/user.entity';
 
 export class CreateUserDto {
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'userID is required' })
   userID: string;
 
-  @IsNotEmpty()
-  @IsEnum(statusEnum) // กำหนดให้ status เป็นค่า enum
-  status: statusEnum;
+  @IsNotEmpty({ message: 'Status is required' })
+  @IsEnum(UserStatusEnum, { message: 'Status must be a valid enum value' })
+  status: UserStatusEnum;
 
-  @IsNotEmpty()
-  @IsInt()
-  roleId: number; // แทนที่การใช้งาน DeepPartial<UserRole>
+  @IsNotEmpty({ message: 'Role ID is required' })
+  @IsInt({ message: 'Role ID must be an integer' })
+  roleId: number;
 
-  @IsNotEmpty()
-  @IsInt()
+  @IsNotEmpty({ message: 'Fund is required' })
+  @IsInt({ message: 'Fund must be an integer' })
+  @Min(0, { message: 'Fund must be greater than or equal to 0' })
   fund: number;
 
-  @IsNotEmpty()
-  @IsInt()
+  @IsNotEmpty({ message: 'Remaining fund is required' })
+  @IsInt({ message: 'Remaining fund must be an integer' })
+  @Min(0, { message: 'Remaining fund must be greater than or equal to 0' })
   remaining_fund: number;
 
-  @IsNotEmpty()
-  @IsInt()
+  @IsNotEmpty({ message: 'Daily cashback is required' })
+  @IsInt({ message: 'Daily cashback must be an integer' })
+  @Min(0, { message: 'Daily cashback must be greater than or equal to 0' })
   dailyCashback: number;
 
-  @IsNotEmpty()
-  @IsEnum(StatusFundEnum) // กำหนดให้ statusFund เป็นค่า enum
+  @IsNotEmpty({ message: 'Status fund is required' })
+  @IsEnum(StatusFundEnum, { message: 'Status fund must be a valid enum value' })
   statusFund: StatusFundEnum;
 
-  @IsNotEmpty()
-  @IsBoolean()
+  @IsNotEmpty({ message: 'isActive is required' })
+  @IsBoolean({ message: 'isActive must be a boolean value' })
   isActive: boolean;
 
-  @IsNotEmpty()
-  @IsInt()
-  groupId: number; // แทนที่การใช้งาน DeepPartial<Group>
+  @IsNotEmpty({ message: 'Group ID is required' })
+  @IsString({ message: 'Group ID must be a string' })  // เปลี่ยนเป็น @IsString()
+  groupId: string;  // เปลี่ยนเป็น string แทนที่จะเป็น number
 }

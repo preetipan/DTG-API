@@ -2,15 +2,14 @@ import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateCol
 import { UserRole } from './userRole.entity';
 import { Group } from './group.entity';
 
-
 export enum StatusFundEnum {
   CASH = 1,
   CREDIT = 2,
 }
 
-export enum statusEnum {
-  Normal = 1,
-  Blacklis = 2,
+export enum UserStatusEnum {
+  NORMAL = 1,
+  BLACKLIST = 2,
 }
 
 @Entity()
@@ -18,23 +17,23 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'varchar', length: 100 })
+  @Column({ type: 'varchar', length: 100, unique: true })
   userID: string;
 
-  @Column({ type: 'enum', enum: statusEnum })
-  status: statusEnum;
+  @Column({ type: 'enum', enum: UserStatusEnum })
+  status: UserStatusEnum;
 
   @ManyToOne(() => UserRole, (userRole) => userRole.users)
   @JoinColumn({ name: 'roleId' })
   role: UserRole;
 
-  @Column({ type: 'integer', nullable: true })
+  @Column({ type: 'integer', default: 0 })
   fund: number;
 
-  @Column({ type: 'integer', nullable: true })
-  remaining_fund: number;
+  @Column({ name: 'remaining_fund', type: 'integer', default: 0 })
+  remainingFund: number;
 
-  @Column({ type: 'integer', nullable: true })
+  @Column({ name: 'daily_cashback', type: 'integer', default: 0 })
   dailyCashback: number;
 
   @Column({ type: 'enum', enum: StatusFundEnum })
@@ -57,4 +56,3 @@ export class User {
   })
   updateDate: Date;
 }
-

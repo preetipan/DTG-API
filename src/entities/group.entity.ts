@@ -1,15 +1,11 @@
-// group.entity.ts
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Entity, PrimaryColumn, Column, OneToMany } from 'typeorm';
 import { User } from './user.entity';
 import { Round } from './round.entity';
 import { Transaction } from './transaction.entity';
 
 @Entity()
 export class Group {
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @Column({ type: 'varchar', length: 100, unique: true })
+  @PrimaryColumn({ type: 'varchar', length: 100, unique: true })
   idGroup: string;
 
   @Column({ type: 'varchar', length: 100 })

@@ -1,18 +1,25 @@
 // round.entity.ts
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
 import { Group } from './group.entity';
 import { User } from './user.entity';
 import { SubRound } from './subRound.entity';
+
+
+export enum RoundStatusEnum {
+  OPEN = 1,
+  CLOSE = 2,
+}
 
 @Entity()
 export class Round {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'integer' })
-  round_status: number;
+  @Column({ type: 'enum', enum: RoundStatusEnum })
+  round_status: RoundStatusEnum;
 
-  @ManyToOne(() => Group, (group) => group.idGroup)
+  @ManyToOne(() => Group, (group) => group.rounds)
+  @JoinColumn({ name: 'group_id' })
   group: Group;
 
   @Column({ type: 'varchar', length: 100 })

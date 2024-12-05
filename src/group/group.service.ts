@@ -12,31 +12,41 @@ export class GroupService {
     private groupRepository: Repository<Group>,
   ) {}
 
-  async create(createGroupDto: CreateGroupDto) {
+  // สร้างกลุ่มใหม่
+  async create(createGroupDto: CreateGroupDto): Promise<Group> {
     const newGroup = this.groupRepository.create(createGroupDto); // ใช้ DTO ตรงๆ
     return await this.groupRepository.save(newGroup);
   }
 
-  findAll() {
+  // ค้นหากลุ่มทั้งหมด
+  findAll(): Promise<Group[]> {
     return this.groupRepository.find();
   }
 
-  async findOne(id: number) {
-    const group = await this.groupRepository.findOneBy({ id });
+  // ค้นหากลุ่มตาม ID
+  async findOne(groupId: string): Promise<Group> {
+    const group = await this.groupRepository.findOne({
+      where: { idGroup: groupId },
+      relations: ['users', 'rounds', 'transactions'], // เชื่อมโยงข้อมูลที่เกี่ยวข้อง (ถ้าต้องการ)
+    });
+
     if (!group) {
-      throw new NotFoundException(`Group with ID ${id} not found`);
+      throw new NotFoundException(`Group with ID ${groupId} not found`);
     }
     return group;
   }
 
-  async update(id: number, updateGroupDto: UpdateGroupDto) {
-    const group = await this.findOne(id);
-    const updatedGroup = Object.assign(group, updateGroupDto);
-    return await this.groupRepository.save(updatedGroup);
+  // อัปเดตกกลุ่ม
+  async update(groupId: string, updateGroupDto: UpdateGroupDto): Promise<Group> {
+    const group = await this.findOne(groupId);
+    // update ข้อมูลใน group
+    Object.assign(group, updateGroupDto);
+    return await this.groupRepository.save(group); // save ที่ได้รับการอัปเดตแล้ว
   }
 
-  async remove(id: number) {
-    const group = await this.findOne(id);
-    return await this.groupRepository.remove(group);
+  // ลบกลุ่ม
+  async remove(groupId: string): Promise<void> {
+    const group = await this.findOne(groupId);
+    await this.groupRepository.remove(group); // ลบข้อมูล
   }
 }

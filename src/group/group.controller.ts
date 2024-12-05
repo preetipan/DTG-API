@@ -17,18 +17,18 @@ export class GroupController {
     return this.groupService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.groupService.findOne(+id);
+  @Get(':idGroup')  // ใช้ idGroup แทน id
+  findOne(@Param('idGroup') idGroup: string) {
+    return this.groupService.findOne(idGroup); // ส่ง idGroup เป็น string
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateGroupDto: UpdateGroupDto) {
-    return this.groupService.update(+id, updateGroupDto);
+  @Patch(':idGroup')  // ใช้ idGroup แทน id
+  update(@Param('idGroup') idGroup: string, @Body() updateGroupDto: UpdateGroupDto) {
+    return this.groupService.update(idGroup, updateGroupDto); // ส่ง idGroup เป็น string
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.groupService.remove(+id);
+  @Delete(':idGroup')  // ใช้ idGroup แทน id
+  remove(@Param('idGroup') idGroup: string) {
+    return this.groupService.remove(idGroup); // ส่ง idGroup เป็น string
   }
 }

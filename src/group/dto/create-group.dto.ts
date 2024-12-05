@@ -1,7 +1,19 @@
+import { IsNotEmpty, IsString, IsOptional, IsBoolean } from 'class-validator';
+
 export class CreateGroupDto {
-    idGroup: string;
-    groupName: string;
-    cockIsActive?: boolean;
-    hiloIsActive?: boolean;
-  }
-  
+  @IsNotEmpty()
+  @IsString()
+  idGroup: string;
+
+  @IsNotEmpty()
+  @IsString()
+  groupName: string;
+
+  @IsOptional()
+  @IsBoolean()
+  cockIsActive?: boolean;
+
+  @IsOptional()
+  @IsBoolean()
+  hiloIsActive?: boolean;
+}
