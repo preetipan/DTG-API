@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, NotFoundException } from '@nestjs/common';
 import { GroupService } from './group.service';
 import { CreateGroupDto } from './dto/create-group.dto';
 import { UpdateGroupDto } from './dto/update-group.dto';
@@ -8,27 +8,48 @@ export class GroupController {
   constructor(private readonly groupService: GroupService) {}
 
   @Post()
-  create(@Body() createGroupDto: CreateGroupDto) {
+  async create(@Body() createGroupDto: CreateGroupDto) {
     return this.groupService.create(createGroupDto);
   }
 
-  @Get()
-  findAll() {
+  @Get('all')
+  async findAll() {
     return this.groupService.findAll();
   }
 
-  @Get(':idGroup')  // ใช้ idGroup แทน id
-  findOne(@Param('idGroup') idGroup: string) {
-    return this.groupService.findOne(idGroup); // ส่ง idGroup เป็น string
+  @Get('detail/:idGroup')
+  async findOne(@Param('idGroup') idGroup: string) {
+    return this.groupService.findOne(idGroup); // หากไม่พบ, groupService จะโยน NotFoundException ให้
   }
 
-  @Patch(':idGroup')  // ใช้ idGroup แทน id
-  update(@Param('idGroup') idGroup: string, @Body() updateGroupDto: UpdateGroupDto) {
-    return this.groupService.update(idGroup, updateGroupDto); // ส่ง idGroup เป็น string
+  @Get('name/:groupName')
+  async findByName(@Param('groupName') groupName: string) {
+    const group = await this.groupService.findByName(groupName);
+    if (!group) {
+      throw new NotFoundException(`Group with name '${groupName}' not found`);
+    }
+    return group;
   }
 
-  @Delete(':idGroup')  // ใช้ idGroup แทน id
-  remove(@Param('idGroup') idGroup: string) {
-    return this.groupService.remove(idGroup); // ส่ง idGroup เป็น string
+  @Patch(':idGroup')
+  async update(
+    @Param('idGroup') idGroup: string,
+    @Body() updateGroupDto: UpdateGroupDto,
+  ) {
+    return this.groupService.update(idGroup, updateGroupDto);
+  }
+
+  @Patch('subGroup/:groupName')
+  async updateByGroupName(
+    @Param('groupName') groupName: string,
+    @Body() updateGroupDto: UpdateGroupDto,
+  ) {
+    return this.groupService.updateByGroupName(groupName, updateGroupDto);
+  }
+
+  @Delete(':idGroup')
+  async remove(@Param('idGroup') idGroup: string) {
+    await this.groupService.remove(idGroup);
+    return { message: `Group with ID ${idGroup} deleted successfully` };
   }
 }

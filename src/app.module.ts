@@ -11,6 +11,7 @@ import { SubRound } from './entities/subRound.entity';
 import { Round } from './entities/round.entity';
 import { Group } from './entities/group.entity';
 import { GroupModule } from './group/group.module';
+import { RoundModule } from './round/round.module';
 
 
 @Module({
@@ -27,10 +28,10 @@ import { GroupModule } from './group/group.module';
         password: process.env.DATABASE_PASSWORD,
         database: process.env.DATABASE_NAME,
         entities: [User, UserRole, Transaction, SubRound, Round, Group],
-        synchronize: false,
+        synchronize: true,
       }),
     }),
-    UserModule, GroupModule,
+    UserModule, GroupModule, RoundModule,
   ],
   controllers: [AppController],
   providers: [AppService],

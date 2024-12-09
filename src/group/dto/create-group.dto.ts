@@ -1,4 +1,10 @@
-import { IsNotEmpty, IsString, IsOptional, IsBoolean } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsString,
+  IsOptional,
+  IsBoolean,
+  IsDate,
+} from 'class-validator';
 
 export class CreateGroupDto {
   @IsNotEmpty()
@@ -16,4 +22,32 @@ export class CreateGroupDto {
   @IsOptional()
   @IsBoolean()
   hiloIsActive?: boolean;
+
+  @IsOptional()
+  @IsBoolean()
+  openPlay?: boolean;
+
+  @IsOptional()
+  @IsString()
+  subGroup?: string;
+
+  @IsOptional()
+  @IsString()
+  subGroupname?: string;
+
+  @IsOptional()
+  @IsString()
+  createBy?: string;
+
+  @IsOptional()
+  @IsString()
+  updateBy?: string;
+
+  @IsOptional()
+  @IsDate()
+  createDate?: Date;
+
+  @IsOptional()
+  @IsDate()
+  updateDate?: Date;
 }

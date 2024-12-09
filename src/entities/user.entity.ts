@@ -1,6 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from "typeorm";
 import { UserRole } from './userRole.entity';
-import { Group } from './group.entity';
 
 export enum StatusFundEnum {
   CASH = 1,
@@ -42,9 +41,8 @@ export class User {
   @Column({ type: 'boolean', default: true })
   isActive: boolean;
 
-  @ManyToOne(() => Group, (group) => group.users)
-  @JoinColumn({ name: 'groupId' })
-  group: Group;
+  @Column({ type: 'varchar', length: 100, nullable: true })
+  groupId: string; // เก็บแค่กลุ่ม (ไม่ต้องเชื่อมโยงกับ Group Entity)
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createDate: Date;

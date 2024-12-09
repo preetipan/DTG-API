@@ -1,5 +1,11 @@
-import { Entity, PrimaryColumn, Column, OneToMany } from 'typeorm';
-import { User } from './user.entity';
+import {
+  Entity,
+  PrimaryColumn,
+  Column,
+  OneToMany,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { Round } from './round.entity';
 import { Transaction } from './transaction.entity';
 
@@ -8,7 +14,7 @@ export class Group {
   @PrimaryColumn({ type: 'varchar', length: 100, unique: true })
   idGroup: string;
 
-  @Column({ type: 'varchar', length: 100 })
+  @Column({ type: 'varchar', length: 100, unique: true })
   groupName: string;
 
   @Column({ type: 'boolean', default: false })
@@ -17,9 +23,23 @@ export class Group {
   @Column({ type: 'boolean', default: false })
   hiloIsActive: boolean;
 
-  // การเชื่อมโยงกับ User
-  @OneToMany(() => User, (user) => user.group)
-  users: User[];
+  @Column({ type: 'boolean', default: false })
+  openPlay: boolean;
+
+  @Column({ type: 'varchar', length: 100, nullable: true })
+  subGroup: string;
+
+  @Column({ type: 'varchar', length: 100, nullable: true })
+  createBy: string;
+
+  @Column({ type: 'varchar', length: 100, nullable: true })
+  updateBy: string;
+
+  @CreateDateColumn()
+  createDate: Date;
+
+  @UpdateDateColumn()
+  updateDate: Date;
 
   // การเชื่อมโยงกับ Round
   @OneToMany(() => Round, (round) => round.group)

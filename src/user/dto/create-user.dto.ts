@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsInt, IsEnum, IsBoolean, IsString, Min } from 'class-validator';
+import { IsNotEmpty, IsInt, IsEnum, IsBoolean, IsString, Min, IsOptional } from 'class-validator';
 import { UserStatusEnum, StatusFundEnum } from '../../entities/user.entity';
 
 export class CreateUserDto {
@@ -36,7 +36,7 @@ export class CreateUserDto {
   @IsBoolean({ message: 'isActive must be a boolean value' })
   isActive: boolean;
 
-  @IsNotEmpty({ message: 'Group ID is required' })
-  @IsString({ message: 'Group ID must be a string' })  // เปลี่ยนเป็น @IsString()
-  groupId: string;  // เปลี่ยนเป็น string แทนที่จะเป็น number
+  @IsOptional()
+  @IsString()
+  groupId?: string
 }

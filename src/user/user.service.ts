@@ -18,7 +18,7 @@ export class UserService {
   }
 
   // ฟังก์ชันค้นหาผู้ใช้ทั้งหมด
-  findAll() {
+  async findAll() {
     return this.userRepository.find();
   }
 

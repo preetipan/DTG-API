@@ -10,6 +10,13 @@ export enum RoundStatusEnum {
   CLOSE = 2,
 }
 
+
+export enum RoundResultEnum {
+  WIN_BLUE = 'WIN_BLUE',
+  WIN_RED = 'WIN_RED',
+  DRAW = 'DRAW',
+}
+
 @Entity()
 export class Round {
   @PrimaryGeneratedColumn()
