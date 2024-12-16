@@ -1,7 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, NotFoundException } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  NotFoundException,
+} from '@nestjs/common';
 import { GroupService } from './group.service';
 import { CreateGroupDto } from './dto/create-group.dto';
 import { UpdateGroupDto } from './dto/update-group.dto';
+import { Group } from 'src/entities/group.entity';
 
 @Controller('group')
 export class GroupController {
@@ -31,6 +41,23 @@ export class GroupController {
     return group;
   }
 
+  @Get(':groupId/main-round')
+  async getMainRound(@Param('groupId') groupId: string) {
+    return this.groupService.getMainRound(groupId);
+  }
+
+
+  @Get(':groupId/sub-round')
+  async getSubRound(@Param('groupId') groupId: string) {
+    return this.groupService.getSubRound(groupId);
+  }
+
+  @Get('checkSubGroup/:subGroup')
+  async checkSubGroup(@Param('subGroup') subGroup: string) {
+    const exists = await this.groupService.checkSubGroupExists(subGroup);
+    return { exists };
+  }
+
   @Patch(':idGroup')
   async update(
     @Param('idGroup') idGroup: string,
@@ -45,6 +72,32 @@ export class GroupController {
     @Body() updateGroupDto: UpdateGroupDto,
   ) {
     return this.groupService.updateByGroupName(groupName, updateGroupDto);
+  }
+
+  @Patch(':groupId/increment-main-round')
+  async incrementMainRoundNumber(
+    @Param('groupId') groupId: string,
+  ): Promise<Group> {
+    return await this.groupService.incrementMainRoundNumber(groupId);
+  }
+
+  @Patch(':groupId/reset-main-round')
+  async resetMainRoundNumber(
+    @Param('groupId') groupId: string,
+  ): Promise<Group> {
+    return await this.groupService.resetMainRoundNumber(groupId);
+  }
+
+  @Patch(':groupId/increment-sub-round')
+  async incrementSubRoundCount(
+    @Param('groupId') groupId: string,
+  ): Promise<Group> {
+    return await this.groupService.incrementSubRoundCount(groupId);
+  }
+
+  @Patch(':groupId/reset-sub-round')
+  async resetSubRoundCount(@Param('groupId') groupId: string): Promise<Group> {
+    return await this.groupService.resetSubRoundCount(groupId);
   }
 
   @Delete(':idGroup')

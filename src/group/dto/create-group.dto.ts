@@ -4,6 +4,7 @@ import {
   IsOptional,
   IsBoolean,
   IsDate,
+  IsInt,
 } from 'class-validator';
 
 export class CreateGroupDto {
@@ -34,6 +35,16 @@ export class CreateGroupDto {
   @IsOptional()
   @IsString()
   subGroupname?: string;
+
+  // จำนวนรอบใหญ่
+  @IsOptional()
+  @IsInt()
+  main_round_number?: number;
+
+  // จำนวนรอบเล็ก
+  @IsOptional()
+  @IsInt()
+  sub_round_count?: number;
 
   @IsOptional()
   @IsString()

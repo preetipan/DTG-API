@@ -1,4 +1,3 @@
-// subRound.entity.ts
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { Round } from './round.entity';
 import { User } from './user.entity';
@@ -14,16 +13,16 @@ export class SubRound {
   @ManyToOne(() => Round, (round) => round.id)
   round: Round;
 
-  @Column({ type: 'integer' })
-  price: number;
+  @Column({ type: 'varchar' })  // เปลี่ยนเป็น 'varchar' เพื่อเก็บเป็น string
+  price: string;  // เปลี่ยนประเภทจาก number เป็น string
 
   @Column({ type: 'integer' })
   status: number;
 
-  @Column({ type: 'timestamp' })
+  @Column({ type: 'timestamp', nullable: true })
   start_time: Date;
 
-  @Column({ type: 'timestamp' })
+  @Column({ type: 'timestamp', nullable: true })
   end_time: Date;
 
   @ManyToOne(() => User, (user) => user.userID)

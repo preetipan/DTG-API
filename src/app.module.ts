@@ -12,6 +12,7 @@ import { Round } from './entities/round.entity';
 import { Group } from './entities/group.entity';
 import { GroupModule } from './group/group.module';
 import { RoundModule } from './round/round.module';
+import { SubRoundModule } from './sub-round/sub-round.module';
 
 
 @Module({
@@ -31,7 +32,7 @@ import { RoundModule } from './round/round.module';
         synchronize: true,
       }),
     }),
-    UserModule, GroupModule, RoundModule,
+    UserModule, GroupModule, RoundModule, SubRoundModule,
   ],
   controllers: [AppController],
   providers: [AppService],

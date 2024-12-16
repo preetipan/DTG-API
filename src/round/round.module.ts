@@ -7,7 +7,7 @@ import { User } from '../entities/user.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Round, Group, User])],
+  imports: [TypeOrmModule.forFeature([Round, Group])],
   controllers: [RoundController],
   providers: [RoundService],
   exports: [RoundService],

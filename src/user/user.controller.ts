@@ -2,7 +2,7 @@ import {
   Controller,
   Get,
   Post,
-  Put,
+  Patch,
   Delete,
   Body,
   Param,
@@ -55,7 +55,7 @@ export class UserController {
   }
 
   // ฟังก์ชันสำหรับอัปเดตข้อมูลผู้ใช้โดยใช้ userId
-  @Put(':userID')
+  @Patch(':userID')
   async updateUser(
     @Param('userID') userID: string,
     @Body(new ValidationPipe({ skipMissingProperties: true }))
@@ -64,7 +64,7 @@ export class UserController {
     return await this.userService.update(userID, data);
   }
 
-  @Put('id/:id') // เพิ่มเส้นทางใหม่สำหรับอัปเดตข้อมูลผู้ใช้โดยใช้ id
+  @Patch('id/:id') // เพิ่มเส้นทางใหม่สำหรับอัปเดตข้อมูลผู้ใช้โดยใช้ id
   async updateUserById(
     @Param('id') id: number,
     @Body(new ValidationPipe({ skipMissingProperties: true }))
